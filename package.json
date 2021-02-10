@@ -2,7 +2,8 @@
   "name": "@danielzaiser91/bubble-notifications",
   "version": "1.1.6",
   "description": "bubble-notifications creates nice customizable notifications with a simple animation",
-  "main": "index.js",
+  "main": "bubble-notifications.js",
+  "module": "bubble-notifications.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/danielzaiser91/bubble-notifications"
@@ -21,5 +22,6 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "type": "module"
 }

@@ -1,19 +1,20 @@
 const BN = class {
   infoBubbleContainer = null;
 
-  init() {
-    infoBubbleContainer = document.getElementById('infoBubbleContainer');
+  static init() {
+    this.infoBubbleContainer = document.getElementById("infoBubbleContainer");
   }
 
-  info(text) {
-    const newBubble = document.createElement('div');
-    newBubble.classList.add('infoBubble', 'pop-in');
+  static info(text) {
+    if (!this.infoBubbleContainer) {
+      return console.error("initialize notifications with BN.init() first");
+    }
+    const newBubble = document.createElement("div");
+    newBubble.classList.add("infoBubble", "pop-in");
     newBubble.innerText = text;
-    infoBubbleContainer.appendChild(newBubble);
-    setTimeout(() => infoBubbleContainer.removeChild(newBubble), 2500);
+    this.infoBubbleContainer.appendChild(newBubble);
+    setTimeout(() => this.infoBubbleContainer.removeChild(newBubble), 2500);
   }
-}
-
-export {
-  BN
 };
+
+export { BN };
