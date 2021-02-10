@@ -1,4 +1,4 @@
-const BN = class {
+module.exports = class {
   infoBubbleContainer = null;
 
   static init() {
@@ -16,5 +16,3 @@ const BN = class {
     setTimeout(() => this.infoBubbleContainer.removeChild(newBubble), 2500);
   }
 };
-
-exports = BN;
