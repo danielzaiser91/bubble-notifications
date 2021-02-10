@@ -4,8 +4,8 @@
   "description": "bubble-notifications creates nice customizable notifications with a simple animation",
   "main": "index.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/danielzaiser91/bubble-notifications"
+    "type": "git",
+    "url": "https://github.com/danielzaiser91/bubble-notifications"
   },
   "keywords": [
     "notifications",
