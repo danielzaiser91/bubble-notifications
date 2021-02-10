@@ -1,6 +1,6 @@
 {
   "name": "@danielzaiser91/bubble-notifications",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "learning how to publish a package to npm",
   "main": "index.js",
   "scripts": {
