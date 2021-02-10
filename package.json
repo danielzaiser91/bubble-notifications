@@ -1,11 +1,15 @@
 {
   "name": "@danielzaiser91/bubble-notifications",
   "version": "1.1.1",
-  "description": "learning how to publish a package to npm",
+  "description": "bubble-notifications creates nice customizable notifications with a simple animation",
   "main": "index.js",
+  "keywords": ["notifications", "bubble-notifications", "notification", "animated", "animated notifications"],
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
   "author": "Daniel Zaiser",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
