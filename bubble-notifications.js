@@ -1,4 +1,4 @@
-const infoBubbleContainer = document.querySelector('#infoBubbleContainer');
+const infoBubbleContainer = document.getElementById('infoBubbleContainer');
 function info(text) {
   const newBubble = document.createElement('div');
   newBubble.classList.add('infoBubble', 'pop-in');
