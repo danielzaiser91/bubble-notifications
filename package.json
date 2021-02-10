@@ -1,0 +1,11 @@
+{
+  "name": "@danielzaiser91/bubble-notifications",
+  "version": "1.0.0",
+  "description": "learning how to publish a package to npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Zaiser",
+  "license": "MIT"
+}
