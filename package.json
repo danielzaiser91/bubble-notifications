@@ -1,6 +1,6 @@
 {
   "name": "@danielzaiser91/bubble-notifications",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "bubble-notifications creates nice customizable notifications with a simple animation",
   "main": "bubble-notifications.cjs",
   "module": "bubble-notifications.js",
