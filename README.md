@@ -2,6 +2,9 @@
 
 creates nice customizable notifications with a simple animation
 
+# npm package
+https://www.npmjs.com/package/@danielzaiser91/bubble-notifications
+
 # How to use
 
 1. declare an element on your page as the container for the messages, by giving it an id of "infoBubbleContainer"
