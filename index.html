@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bubble-notifications — Demo</title>
+  <meta name="description" content="Live demo of @danielzaiser91/bubble-notifications — nice customizable notifications with a simple animation.">
+  <link rel="stylesheet" href="./bubble-notifications.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0f1220;
+      --card: #191d33;
+      --card-border: #2a2f52;
+      --text: #e8eaf6;
+      --muted: #9aa0c3;
+      --accent: #ffd400;
+      --accent-dark: #b89a00;
+      --code-bg: #0b0e1a;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      text-align: center;
+      padding: 72px 0 48px;
+    }
+    header h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: -1px;
+    }
+    header h1 .bubble-word {
+      color: var(--accent);
+    }
+    header p.tagline {
+      color: var(--muted);
+      font-size: 1.15rem;
+      margin-top: 10px;
+    }
+    .links {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .links a {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: .95rem;
+      transition: border-color .15s, transform .15s;
+    }
+    .links a:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+    section { margin-bottom: 56px; }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 8px;
+    }
+    h3 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--accent); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .demo-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .demo-row + .demo-row { margin-top: 14px; }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      background: var(--accent);
+      color: #1a1a1a;
+      font-weight: 600;
+      transition: transform .1s, filter .15s;
+    }
+    button:hover { filter: brightness(1.08); }
+    button:active { transform: scale(.96); }
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--card-border);
+      font-weight: 400;
+    }
+    button.secondary:hover { border-color: var(--accent); filter: none; }
+
+    input[type="text"] {
+      font: inherit;
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: var(--code-bg);
+      color: var(--text);
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    ol.steps { padding-left: 22px; }
+    ol.steps li { margin-bottom: 10px; }
+    ol.steps code {
+      background: var(--code-bg);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: .9em;
+      color: var(--accent);
+    }
+
+    .codeblock {
+      position: relative;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      margin: 8px 0 4px;
+      overflow: hidden;
+    }
+    .codeblock pre {
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+    .codeblock .copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--card);
+      color: var(--muted);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: .8rem;
+      font-weight: 400;
+    }
+    .codeblock .copy:hover { color: var(--text); border-color: var(--accent); filter: none; }
+
+    .comment { color: #6a7194; }
+    .str { color: #a5d6a7; }
+    .kw { color: #82aaff; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+      padding: 32px 0 48px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* keep demo bubbles above everything on this page */
+    #infoBubbleContainer { z-index: 100; }
+    #infoBubbleContainer .infoBubble { color: #1a1a1a; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="bubble-word">bubble</span>-notifications</h1>
+      <p class="tagline">Nice customizable notifications with a simple animation.<br>Zero dependencies · ~600 bytes of JS · ESM &amp; CommonJS</p>
+      <div class="links">
+        <a href="https://github.com/danielzaiser91/bubble-notifications">GitHub</a>
+        <a href="https://www.npmjs.com/package/@danielzaiser91/bubble-notifications">npm</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Live demo</h2>
+      <div class="card">
+        <div class="demo-row">
+          <button id="btn-hello">Say hello 👋</button>
+          <button id="btn-saved" class="secondary">Saved ✓</button>
+          <button id="btn-error" class="secondary">Something went wrong 😬</button>
+          <button id="btn-burst" class="secondary">Burst ×3</button>
+        </div>
+        <div class="demo-row">
+          <input type="text" id="custom-text" placeholder="Type your own message…" maxlength="120">
+          <button id="btn-custom">Notify</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <div class="card">
+        <ol class="steps">
+          <li>Add an empty container element with the id <code>infoBubbleContainer</code> anywhere on your page. The stylesheet pins it to the bottom center of the viewport.</li>
+          <li>Import the <code>BN</code> class and its stylesheet, then call <code>BN.init()</code> once the DOM is ready.</li>
+          <li>Call <code>BN.info("your message")</code> whenever you want a bubble. It pops in, floats for 2.5&nbsp;seconds and removes itself — multiple bubbles stack automatically.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Installation &amp; usage</h2>
+      <div class="card">
+        <h3>1 · Install from npm</h3>
+        <div class="codeblock">
+          <pre>npm install @danielzaiser91/bubble-notifications</pre>
+          <button class="copy" data-copy="npm install @danielzaiser91/bubble-notifications">Copy</button>
+        </div>
+
+        <h3>2 · Add the container &amp; stylesheet</h3>
+        <div class="codeblock">
+          <pre><span class="comment">&lt;!-- somewhere in your HTML --&gt;</span>
+&lt;link rel=<span class="str">"stylesheet"</span> href=<span class="str">"node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"</span>&gt;
+&lt;div id=<span class="str">"infoBubbleContainer"</span>&gt;&lt;/div&gt;</pre>
+          <button class="copy" data-copy='&lt;link rel="stylesheet" href="node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"&gt;
+&lt;div id="infoBubbleContainer"&gt;&lt;/div&gt;'>Copy</button>
+        </div>
+
+        <h3>3a · Use it (ES modules)</h3>
+        <div class="codeblock">
+          <pre><span class="kw">import</span> { BN } <span class="kw">from</span> <span class="str">"@danielzaiser91/bubble-notifications"</span>;
+
+BN.init();                          <span class="comment">// once, after the DOM is ready</span>
+BN.info(<span class="str">"Hello from a bubble!"</span>);   <span class="comment">// anywhere, as often as you like</span></pre>
+          <button class="copy" data-copy='import { BN } from "@danielzaiser91/bubble-notifications";
+
+BN.init();
+BN.info("Hello from a bubble!");'>Copy</button>
+        </div>
+
+        <h3>3b · Use it (CommonJS)</h3>
+        <div class="codeblock">
+          <pre><span class="kw">const</span> BN = <span class="kw">require</span>(<span class="str">"@danielzaiser91/bubble-notifications"</span>);
+
+BN.init();
+BN.info(<span class="str">"Hello from a bubble!"</span>);</pre>
+          <button class="copy" data-copy='const BN = require("@danielzaiser91/bubble-notifications");
+
+BN.init();
+BN.info("Hello from a bubble!");'>Copy</button>
+        </div>
+
+        <h3>3c · No build step? Use a CDN</h3>
+        <div class="codeblock">
+          <pre>&lt;link rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.css"</span>&gt;
+&lt;div id=<span class="str">"infoBubbleContainer"</span>&gt;&lt;/div&gt;
+
+&lt;script type=<span class="str">"module"</span>&gt;
+  <span class="kw">import</span> { BN } <span class="kw">from</span> <span class="str">"https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.js"</span>;
+  BN.init();
+  BN.info(<span class="str">"Ready to go!"</span>);
+&lt;/script&gt;</pre>
+          <button class="copy" data-copy='&lt;link rel="stylesheet" href="https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.css"&gt;
+&lt;div id="infoBubbleContainer"&gt;&lt;/div&gt;
+
+&lt;script type="module"&gt;
+  import { BN } from "https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.js";
+  BN.init();
+  BN.info("Ready to go!");
+&lt;/script&gt;'>Copy</button>
+        </div>
+
+        <h3>Customizing</h3>
+        <p>The look is plain CSS — override <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">.infoBubble</code> (colors, padding, radius) or <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">#infoBubbleContainer</code> (position) in your own stylesheet to match your design.</p>
+      </div>
+    </section>
+
+    <footer>
+      MIT licensed · Made by Daniel Zaiser ·
+      <a href="https://github.com/danielzaiser91/bubble-notifications">Source on GitHub</a>
+    </footer>
+  </div>
+
+  <!-- the notification container required by the library -->
+  <div id="infoBubbleContainer"></div>
+
+  <script type="module">
+    // This demo imports the library files of this very repository —
+    // exactly what you get from npm as @danielzaiser91/bubble-notifications.
+    import { BN } from "./bubble-notifications.js";
+
+    BN.init();
+
+    const $ = (id) => document.getElementById(id);
+
+    $("btn-hello").addEventListener("click", () => BN.info("Hello from a bubble! 👋"));
+    $("btn-saved").addEventListener("click", () => BN.info("Saved ✓"));
+    $("btn-error").addEventListener("click", () => BN.info("Something went wrong 😬"));
+    $("btn-burst").addEventListener("click", () => {
+      ["First!", "Second!", "Third!"].forEach((t, i) => setTimeout(() => BN.info(t), i * 350));
+    });
+
+    const notifyCustom = () => {
+      const text = $("custom-text").value.trim();
+      BN.info(text || "Type something first 😉");
+    };
+    $("btn-custom").addEventListener("click", notifyCustom);
+    $("custom-text").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") notifyCustom();
+    });
+
+    // copy buttons for the code snippets
+    for (const btn of document.querySelectorAll(".copy")) {
+      btn.addEventListener("click", async () => {
+        // data-copy holds HTML-escaped text; decode it before copying
+        const tmp = document.createElement("textarea");
+        tmp.innerHTML = btn.dataset.copy;
+        await navigator.clipboard.writeText(tmp.value);
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 1500);
+      });
+    }
+  </script>
+</body>
+</html>
