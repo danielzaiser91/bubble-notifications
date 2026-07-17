@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>bubble-notifications — Demo</title>
   <meta name="description" content="Live demo of @danielzaiser91/bubble-notifications — nice customizable notifications with a simple animation.">
+  <meta property="og:title" content="bubble-notifications — Demo">
+  <meta property="og:description" content="Nice customizable notifications with a simple animation. Zero dependencies, ~1 KB of JS.">
+  <meta property="og:url" content="https://danielzaiser91.github.io/bubble-notifications/">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="./bubble-notifications.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -173,16 +177,19 @@
     }
     footer a { color: var(--accent); text-decoration: none; }
 
-    /* keep demo bubbles above everything on this page */
-    #infoBubbleContainer { z-index: 100; }
-    #infoBubbleContainer .infoBubble { color: #1a1a1a; }
+    /* bubble themes — plain CSS custom properties, see "Customizing" below */
+    #infoBubbleContainer.theme-dark { --bn-background: #23283f; --bn-color: #ffd400; }
+    #infoBubbleContainer.theme-ocean { --bn-background: linear-gradient(135deg, #36d1dc, #5b86e5); --bn-color: #fff; }
+
+    .theme-row { color: var(--muted); font-size: .9rem; }
+    .theme-row .active { border-color: var(--accent); color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1><span class="bubble-word">bubble</span>-notifications</h1>
-      <p class="tagline">Nice customizable notifications with a simple animation.<br>Zero dependencies · ~600 bytes of JS · ESM &amp; CommonJS</p>
+      <p class="tagline">Nice customizable notifications with a simple animation.<br>Zero dependencies · ~1 KB of JS · ESM &amp; CommonJS</p>
       <div class="links">
         <a href="https://github.com/danielzaiser91/bubble-notifications">GitHub</a>
         <a href="https://www.npmjs.com/package/@danielzaiser91/bubble-notifications">npm</a>
@@ -197,10 +204,17 @@
           <button id="btn-saved" class="secondary">Saved ✓</button>
           <button id="btn-error" class="secondary">Something went wrong 😬</button>
           <button id="btn-burst" class="secondary">Burst ×3</button>
+          <button id="btn-slow" class="secondary">Slow bubble · 6 s</button>
         </div>
         <div class="demo-row">
           <input type="text" id="custom-text" placeholder="Type your own message…" maxlength="120">
           <button id="btn-custom">Notify</button>
+        </div>
+        <div class="demo-row theme-row">
+          Theme:
+          <button class="secondary theme-btn active" data-theme="">Classic</button>
+          <button class="secondary theme-btn" data-theme="theme-dark">Dark</button>
+          <button class="secondary theme-btn" data-theme="theme-ocean">Ocean</button>
         </div>
       </div>
     </section>
@@ -209,9 +223,9 @@
       <h2>How it works</h2>
       <div class="card">
         <ol class="steps">
-          <li>Add an empty container element with the id <code>infoBubbleContainer</code> anywhere on your page. The stylesheet pins it to the bottom center of the viewport.</li>
-          <li>Import the <code>BN</code> class and its stylesheet, then call <code>BN.init()</code> once the DOM is ready.</li>
-          <li>Call <code>BN.info("your message")</code> whenever you want a bubble. It pops in, floats for 2.5&nbsp;seconds and removes itself — multiple bubbles stack automatically.</li>
+          <li>Import the <code>BN</code> class and its stylesheet, then call <code>BN.init()</code> once the DOM is ready. The container is created automatically and pinned to the bottom center of the viewport — or add your own <code>&lt;div id="infoBubbleContainer"&gt;</code> if you want to control where it lives. This page uses the automatic one.</li>
+          <li>Call <code>BN.info("your message")</code> whenever you want a bubble. It pops in, floats for 2.5&nbsp;seconds and removes itself — multiple bubbles stack automatically. Pass a second argument to change the duration: <code>BN.info("Slow…", 6000)</code>.</li>
+          <li>Restyle the bubbles with plain CSS custom properties — colors, padding, radius (see below).</li>
         </ol>
       </div>
     </section>
@@ -225,25 +239,25 @@
           <button class="copy" data-copy="npm install @danielzaiser91/bubble-notifications">Copy</button>
         </div>
 
-        <h3>2 · Add the container &amp; stylesheet</h3>
+        <h3>2 · Add the stylesheet</h3>
         <div class="codeblock">
-          <pre><span class="comment">&lt;!-- somewhere in your HTML --&gt;</span>
-&lt;link rel=<span class="str">"stylesheet"</span> href=<span class="str">"node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"</span>&gt;
-&lt;div id=<span class="str">"infoBubbleContainer"</span>&gt;&lt;/div&gt;</pre>
-          <button class="copy" data-copy='&lt;link rel="stylesheet" href="node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"&gt;
-&lt;div id="infoBubbleContainer"&gt;&lt;/div&gt;'>Copy</button>
+          <pre><span class="comment">&lt;!-- in your HTML, or import the .css via your bundler --&gt;</span>
+&lt;link rel=<span class="str">"stylesheet"</span> href=<span class="str">"node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"</span>&gt;</pre>
+          <button class="copy" data-copy='&lt;link rel="stylesheet" href="node_modules/@danielzaiser91/bubble-notifications/bubble-notifications.css"&gt;'>Copy</button>
         </div>
 
         <h3>3a · Use it (ES modules)</h3>
         <div class="codeblock">
           <pre><span class="kw">import</span> { BN } <span class="kw">from</span> <span class="str">"@danielzaiser91/bubble-notifications"</span>;
 
-BN.init();                          <span class="comment">// once, after the DOM is ready</span>
-BN.info(<span class="str">"Hello from a bubble!"</span>);   <span class="comment">// anywhere, as often as you like</span></pre>
+BN.init();                             <span class="comment">// once, after the DOM is ready</span>
+BN.info(<span class="str">"Hello from a bubble!"</span>);      <span class="comment">// anywhere, as often as you like</span>
+BN.info(<span class="str">"I stay longer…"</span>, 6000);      <span class="comment">// optional: duration in ms (default 2500)</span></pre>
           <button class="copy" data-copy='import { BN } from "@danielzaiser91/bubble-notifications";
 
 BN.init();
-BN.info("Hello from a bubble!");'>Copy</button>
+BN.info("Hello from a bubble!");
+BN.info("I stay longer…", 6000);'>Copy</button>
         </div>
 
         <h3>3b · Use it (CommonJS)</h3>
@@ -261,7 +275,6 @@ BN.info("Hello from a bubble!");'>Copy</button>
         <h3>3c · No build step? Use a CDN</h3>
         <div class="codeblock">
           <pre>&lt;link rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.css"</span>&gt;
-&lt;div id=<span class="str">"infoBubbleContainer"</span>&gt;&lt;/div&gt;
 
 &lt;script type=<span class="str">"module"</span>&gt;
   <span class="kw">import</span> { BN } <span class="kw">from</span> <span class="str">"https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.js"</span>;
@@ -269,7 +282,6 @@ BN.info("Hello from a bubble!");'>Copy</button>
   BN.info(<span class="str">"Ready to go!"</span>);
 &lt;/script&gt;</pre>
           <button class="copy" data-copy='&lt;link rel="stylesheet" href="https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.css"&gt;
-&lt;div id="infoBubbleContainer"&gt;&lt;/div&gt;
 
 &lt;script type="module"&gt;
   import { BN } from "https://unpkg.com/@danielzaiser91/bubble-notifications/bubble-notifications.js";
@@ -279,7 +291,22 @@ BN.info("Hello from a bubble!");'>Copy</button>
         </div>
 
         <h3>Customizing</h3>
-        <p>The look is plain CSS — override <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">.infoBubble</code> (colors, padding, radius) or <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">#infoBubbleContainer</code> (position) in your own stylesheet to match your design.</p>
+        <p>The bubbles read their look from CSS custom properties — set them on the container (this is exactly how the theme switcher above works):</p>
+        <div class="codeblock">
+          <pre>#infoBubbleContainer {
+  --bn-background: <span class="str">#23283f</span>;   <span class="comment">/* any background, gradients included */</span>
+  --bn-color: <span class="str">#ffd400</span>;        <span class="comment">/* text color */</span>
+  --bn-padding: <span class="str">12px 20px</span>;
+  --bn-radius: <span class="str">8px</span>;
+}</pre>
+          <button class="copy" data-copy='#infoBubbleContainer {
+  --bn-background: #23283f;
+  --bn-color: #ffd400;
+  --bn-padding: 12px 20px;
+  --bn-radius: 8px;
+}'>Copy</button>
+        </div>
+        <p>For anything beyond that, just override <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">.infoBubble</code> or <code style="background:var(--code-bg);padding:2px 7px;border-radius:6px;">#infoBubbleContainer</code> (position) directly.</p>
       </div>
     </section>
 
@@ -289,15 +316,13 @@ BN.info("Hello from a bubble!");'>Copy</button>
     </footer>
   </div>
 
-  <!-- the notification container required by the library -->
-  <div id="infoBubbleContainer"></div>
-
   <script type="module">
     // This demo imports the library files of this very repository —
     // exactly what you get from npm as @danielzaiser91/bubble-notifications.
+    // Note: no container div anywhere in this HTML — BN.init() creates it.
     import { BN } from "./bubble-notifications.js";
 
-    BN.init();
+    const container = BN.init();
 
     const $ = (id) => document.getElementById(id);
 
@@ -307,6 +332,16 @@ BN.info("Hello from a bubble!");'>Copy</button>
     $("btn-burst").addEventListener("click", () => {
       ["First!", "Second!", "Third!"].forEach((t, i) => setTimeout(() => BN.info(t), i * 350));
     });
+    $("btn-slow").addEventListener("click", () => BN.info("I stick around for 6 seconds 🐌", 6000));
+
+    for (const btn of document.querySelectorAll(".theme-btn")) {
+      btn.addEventListener("click", () => {
+        container.className = btn.dataset.theme;
+        document.querySelector(".theme-btn.active")?.classList.remove("active");
+        btn.classList.add("active");
+        BN.info(`${btn.textContent} theme ✨`);
+      });
+    }
 
     const notifyCustom = () => {
       const text = $("custom-text").value.trim();
