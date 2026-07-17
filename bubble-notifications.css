@@ -1,15 +1,22 @@
 #infoBubbleContainer {
   position: fixed;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
 }
 .infoBubble {
-  background: yellow;
-  padding: 10px;
-  border-radius: 25px;
+  background: var(--bn-background, yellow);
+  color: var(--bn-color, #1a1a1a);
+  padding: var(--bn-padding, 10px);
+  border-radius: var(--bn-radius, 25px);
+  max-width: min(80vw, 420px);
+  overflow-wrap: break-word;
+  text-align: center;
   opacity: 0;
   margin-bottom: 5px;
   transform: translateY(30px);
