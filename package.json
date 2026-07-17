@@ -1,12 +1,32 @@
 {
   "name": "@danielzaiser91/bubble-notifications",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "bubble-notifications creates nice customizable notifications with a simple animation",
+  "type": "module",
   "main": "bubble-notifications.cjs",
   "module": "bubble-notifications.js",
+  "exports": {
+    ".": {
+      "import": "./bubble-notifications.js",
+      "require": "./bubble-notifications.cjs"
+    },
+    "./bubble-notifications.css": "./bubble-notifications.css"
+  },
+  "files": [
+    "bubble-notifications.js",
+    "bubble-notifications.cjs",
+    "bubble-notifications.css"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "homepage": "https://danielzaiser91.github.io/bubble-notifications/",
   "repository": {
     "type": "git",
     "url": "https://github.com/danielzaiser91/bubble-notifications"
+  },
+  "bugs": {
+    "url": "https://github.com/danielzaiser91/bubble-notifications/issues"
   },
   "keywords": [
     "notifications",
